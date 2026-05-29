@@ -1,0 +1,11 @@
+// SQLite is used for local persistence in this take-home challenge.
+// The application currently manages the small audit schema directly at startup
+// to avoid requiring a migration step for reviewers.
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
