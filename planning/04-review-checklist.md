@@ -1,6 +1,6 @@
-# Best Practices for the Scenario D Submission
+# Scenario D Review Checklist
 
-## Product and Design Best Practices
+## Product and Design
 
 - Keep the solution centered on dealership workflow continuity.
 - Explain that the problem is not just document display; it is reducing system switching and manual reconciliation.
@@ -8,7 +8,7 @@
 - Make assumptions explicit in the system design document.
 - Avoid overbuilding features that the challenge did not request.
 
-## API Contract Best Practices
+## API Contract
 
 - Use a single clear endpoint: `GET /api/vehicles/:vin/documents`.
 - Keep response shapes stable for complete, partial, and empty results.
@@ -17,7 +17,7 @@
 - Include upstream status metadata in the response for transparency.
 - Return controlled error bodies with stable error codes.
 
-## Integration Best Practices
+## Integration
 
 - Call Sales System and Service System in parallel.
 - Use adapter modules for each upstream system.
@@ -27,16 +27,16 @@
 - Return partial results when one source succeeds.
 - Avoid leaking upstream implementation details into the public API.
 
-## Data and Persistence Best Practices
+## Data and Persistence
 
 - Persist search audit metadata rather than treating mocked documents as owned local data.
 - Record the final search status and each upstream status.
 - Store latency, result count, warning count, and timestamp.
 - Use persisted records to support the observability story in the README and video.
 
-## Error Handling Best Practices
+## Error Handling
 
-Recommended behavior:
+Expected behavior:
 
 - Invalid VIN: HTTP 400, no upstream calls.
 - One upstream fails: HTTP 200, partial response, warning metadata.
@@ -51,9 +51,9 @@ Avoid:
 - Returning inconsistent response shapes.
 - Mixing source-specific fields directly into the normalized document model.
 
-## Testing Best Practices
+## Testing
 
-Prioritize tests that prove business behavior:
+Tests should prove business behavior:
 
 - Valid VIN returns combined documents.
 - Each document includes a source system.
@@ -65,11 +65,9 @@ Prioritize tests that prove business behavior:
 - Empty upstream results do not crash.
 - Audit records are persisted for complete, partial, and failed searches.
 
-If time is limited, prefer a smaller number of meaningful integration tests over many shallow unit tests.
+## Observability
 
-## Observability Best Practices
-
-For the challenge, structured logs plus audit persistence are enough.
+Readable workflow logs plus audit persistence are enough for this local submission.
 
 Minimum log fields:
 
@@ -87,7 +85,7 @@ README explanation:
 - Request IDs would support tracing across the aggregation service and upstream systems.
 - Audit records would help support teams diagnose recurring source-system failures.
 
-## README Best Practices
+## README
 
 README should include:
 
@@ -101,9 +99,9 @@ README should include:
 - Assumptions and trade-offs.
 - AI Collaboration Narrative.
 
-Keep the AI narrative practical. Reviewers should see that AI was used strategically, while final ownership stayed with the engineer.
+Keep the AI narrative practical. It should describe how AI was used, what was verified, and what changed after review.
 
-## Video Best Practices
+## Video
 
 Suggested 5-10 minute structure:
 
@@ -115,9 +113,9 @@ Suggested 5-10 minute structure:
 6. AI collaboration story: 1-2 minutes.
 7. Lessons learned and trade-offs: 30-60 seconds.
 
-Key message:
+Message:
 
-> I used AI to accelerate exploration and implementation, but I owned the design decisions, validation, tests, and final quality.
+> I used AI to move faster, but I checked the design, code, tests, and runtime behavior myself.
 
 ## What to Avoid
 

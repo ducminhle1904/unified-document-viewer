@@ -8,7 +8,7 @@
 - Use Fastify for the REST API.
 - Use SQLite for local audit persistence.
 - Use Vitest for automated tests.
-- Use structured logs for observability.
+- Use readable workflow logs for observability.
 - Keep the backend as the fully implemented service layer.
 - Include a focused React reviewer UI to demonstrate the API, while avoiding production frontend scope.
 

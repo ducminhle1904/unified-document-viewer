@@ -34,7 +34,7 @@ More detail is available in:
 - Fastify for the REST API
 - SQLite via `better-sqlite3` for local audit persistence
 - Vitest for business behavior tests
-- pino structured logs for local observability
+- pino-based readable logs for local observability
 - Vite, React, Tailwind CSS, and shadcn-style components for the reviewer UI
 - Playwright for browser E2E verification
 
@@ -64,6 +64,31 @@ VITE_API_BASE_URL=http://localhost:3000 npm run web:dev
 ```
 
 The UI starts on `http://127.0.0.1:5173` by default.
+
+## Run With Docker
+
+Start the API and reviewer UI together:
+
+```bash
+docker compose up --build
+```
+
+Then open:
+
+- API health check: `http://localhost:3000/health`
+- Reviewer UI: `http://localhost:5173`
+
+Stop and remove containers:
+
+```bash
+docker compose down
+```
+
+Reset the Docker SQLite volume:
+
+```bash
+docker compose down -v
+```
 
 ## Demo Requests
 
@@ -109,12 +134,12 @@ npm run web:e2e
 - The backend remains the fully implemented assessment layer; the React UI is a focused reviewer/demo client for the same API contract.
 - SQLite is used to satisfy persistence locally without adding external infrastructure.
 - The system persists search audit metadata, not mocked upstream documents as authoritative local records.
-- Authentication, deployment automation, and document download behavior are out of scope for this focused assessment implementation.
+- Authentication, deployment automation, and document download behavior are out of scope here.
 
 ## AI Collaboration Narrative
 
-I used AI agents as engineering collaborators throughout the challenge while keeping ownership of the architecture, trade-offs, verification, and final code quality.
+I used AI as a working assistant during the challenge, mainly for exploration and review. It helped me compare backend-first and frontend-first approaches, sketch the first API contract, and list edge cases I needed to prove with tests.
 
-AI was used to accelerate research, compare backend-first versus frontend-first options, draft the API contract, identify failure modes such as partial upstream failure and duplicate documents, scaffold implementation boundaries, and review test coverage. I then validated the output by inspecting the code, simplifying overbuilt areas, aligning behavior with the assessment requirements, and running automated tests.
+I did not treat generated output as finished work. I reviewed the code, cut back overbuilt parts, fixed UI and Docker issues when they showed up, and verified the final behavior with type checks, backend tests, UI tests, E2E checks, Docker rebuilds, and manual API calls.
 
-The final solution remains human-owned: the architecture is intentionally focused on the Scenario D integration problem, with a clear REST contract, parallel mocked upstream aggregation, normalized document output, persisted audit records, structured logs, and tests around core business behavior.
+The final shape is deliberately small: one REST endpoint, two mocked upstream adapters, normalized documents, audit persistence, readable logs, and tests around the failure modes that matter for Scenario D.

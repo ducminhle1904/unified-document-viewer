@@ -1,23 +1,22 @@
-# System Design Blueprint: Unified Document Viewer
+# System Design: Unified Document Viewer
 
-## Recommended Implementation Choice
+## Implementation Choice
 
 Implement the backend fully and provide a focused React reviewer UI.
 
-This best demonstrates the engineering skills most relevant to Scenario D:
+Scenario D is mainly an integration problem. The hard parts are the API contract, upstream failure handling, normalization, audit persistence, and traceable backend behavior. The React UI is included to make the API easy to review, but it is not the primary assessment layer.
 
-- API design.
-- External system integration.
-- Parallel data aggregation.
-- Failure handling.
-- Persistence.
-- Observability.
-- Automated tests around business logic.
-- A small UI that proves the API contract with complete, empty, partial, and failed states.
+The backend covers:
+
+- VIN validation and REST API behavior.
+- Parallel calls to mocked Sales and Service systems.
+- Source-specific normalization into one document model.
+- Partial failure and timeout handling.
+- SQLite-backed search audit records.
+- Readable request and workflow logs.
+- Tests for the business cases in Scenario D.
 
 ## Technology Choices
-
-Recommended stack:
 
 - Runtime: Node.js.
 - Language: TypeScript.
@@ -26,17 +25,17 @@ Recommended stack:
 - Query layer: direct `better-sqlite3` repository for the small audit schema.
 - Frontend: Vite, React, Tailwind CSS, and shadcn-style components.
 - Tests: Vitest, React Testing Library, Fastify injection, HTTP `fetch` E2E coverage, and Playwright UI E2E.
-- Logging: pino structured logging.
+- Logging: pino with a readable one-line formatter.
 
-Justification:
+Trade-offs:
 
 - TypeScript keeps API contracts and normalized document types explicit.
-- SQLite is simple for a take-home challenge while still satisfying persistence requirements.
-- Fastify is familiar, fast to review, and easy to run locally.
+- SQLite is enough for local audit persistence without adding a separate database service.
+- Fastify keeps the API small and gives useful test support through request injection.
 - A direct SQLite repository avoids ORM setup overhead for a single audit table.
-- React + shadcn-style components keep the UI implementation focused while still polished enough for a reviewer demo.
-- Vitest keeps tests easy for reviewers to run.
-- Structured logs support the observability requirement without adding infrastructure.
+- React + shadcn-style components provide a thin reviewer client for the same API contract.
+- Vitest keeps the backend and UI tests in one toolchain.
+- Text logs are easier to read during the demo while still carrying request IDs, VINs, source names, status, latency, and counts.
 
 ## High-Level Architecture
 
@@ -201,7 +200,7 @@ Service example:
 
 Persist search audit records, not the full document corpus.
 
-Minimum audit fields:
+Audit fields:
 
 - `id`
 - `request_id`
@@ -213,11 +212,7 @@ Minimum audit fields:
 - `upstream_json`
 - `created_at`
 
-Why this is enough:
-
-- It satisfies the persistence requirement.
-- It supports observability and troubleshooting.
-- It avoids pretending that mocked upstream documents are authoritative local data.
+The upstream documents remain owned by the mocked Sales and Service systems. The local database records what was searched, how the upstreams behaved, and what the API returned.
 
 ## Failure Handling
 
@@ -231,7 +226,7 @@ Rules:
 
 ## Observability Strategy
 
-Log structured workflow events so one VIN search can be traced in the backend terminal by `requestId`.
+The API writes one-line readable logs. Each VIN search can be followed by `requestId`, and each upstream call logs its source, status, latency, and document count.
 
 Workflow events:
 
@@ -261,22 +256,20 @@ Upstream log fields:
 - `documentCount`
 - `failureReason`
 
-This gives enough visibility for a local challenge while explaining how it could evolve into metrics and tracing in production.
+For a larger deployment, the same fields could be sent to a log pipeline or converted into metrics. In this submission they are visible directly in the backend terminal and persisted as search audit records.
 
-## AI-Assisted Development Strategy
+## GenAI Use During Design
 
-Use AI for:
+I used AI during design to speed up exploration, not to make final decisions. The useful parts were:
 
-- Comparing architecture options.
-- Generating initial API contract drafts.
-- Creating test case lists.
-- Reviewing edge cases.
-- Producing boilerplate for server setup and tests.
+- Comparing backend-first and frontend-first approaches.
+- Drafting candidate API response shapes.
+- Listing failure cases: partial upstream failure, timeout, empty results, duplicate documents, and invalid VINs.
+- Checking whether the test plan covered the Scenario D behavior.
 
-Human-owned verification:
+I kept the design narrow after that review:
 
-- Confirm the final API contract.
-- Inspect generated code for correctness and maintainability.
-- Add or refine tests for partial failure, invalid VIN, sorting, deduplication, and persistence.
-- Run the full test suite before submission.
-- Document assumptions and trade-offs clearly.
+- One public document-search endpoint.
+- Mocked upstream systems behind adapters.
+- Search audit persistence instead of storing mocked documents as local truth.
+- Tests and manual checks before treating the implementation as complete.

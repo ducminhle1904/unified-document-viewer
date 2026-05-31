@@ -4,7 +4,7 @@ import { createSalesSystemAdapter, type SalesSystemAdapter } from "./adapters/sa
 import { createServiceSystemAdapter, type ServiceSystemAdapter } from "./adapters/service-system-adapter.js";
 import type { AppConfig } from "./config/env.js";
 import { openDatabase, type SqliteDatabase } from "./db/sqlite.js";
-import { createLogger } from "./observability/logger.js";
+import { createLogger, createLoggerOptions } from "./observability/logger.js";
 import { SearchAuditRepository } from "./repositories/search-audit-repository.js";
 import { registerDocumentRoutes } from "./routes/document-routes.js";
 import { DocumentAggregationService } from "./services/document-aggregation-service.js";
@@ -18,7 +18,7 @@ export interface CreateAppOptions {
 
 export async function createApp(options: CreateAppOptions): Promise<FastifyInstance> {
   const logger = createLogger();
-  const app = Fastify({ logger: process.env.NODE_ENV !== "test" });
+  const app = Fastify({ logger: process.env.NODE_ENV !== "test" ? createLoggerOptions() : false });
   await app.register(cors);
 
   const db = options.db ?? openDatabase(options.config.DATABASE_URL);

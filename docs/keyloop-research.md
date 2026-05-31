@@ -1,29 +1,29 @@
 # Keyloop Research Notes for Scenario D
 
-These notes summarize the public product context used during the design phase. They are included to show how the technical solution was grounded in Keyloop's domain, not to claim access to private Keyloop systems or real Keyloop APIs.
+These notes capture the public product context I used while choosing and shaping Scenario D. They do not claim access to private Keyloop systems or real Keyloop APIs.
 
 ## Research Objective
 
-This document connects Keyloop's public product philosophy to Scenario D, the Unified Document Viewer. The goal is to make the challenge submission feel grounded in Keyloop's actual business context instead of reading like a generic coding exercise.
+This document connects Keyloop's public product direction to Scenario D, the Unified Document Viewer.
 
-Scenario D asks for a single VIN search interface that aggregates vehicle documents from two mocked dealership systems: a Sales System API and a Service System API. This maps naturally to Keyloop's stated focus on connected automotive retail, open platform integration, and operational efficiency.
+Scenario D asks for a single VIN search interface that aggregates vehicle documents from two mocked dealership systems: a Sales System API and a Service System API. That fits Keyloop's public focus on connected automotive retail and open platform integration.
 
 ## Keyloop Philosophy
 
 ### Experience-First Automotive Retail
 
-Keyloop presents Fusion as an automotive retail platform that supports the full retail journey and improves the experience for both retailers and consumers. The important idea for Scenario D is that experience quality is affected by fragmented systems, repeated data entry, and incomplete context.
+Keyloop presents Fusion as an automotive retail platform for the retail journey across retailers and consumers. For Scenario D, the relevant point is fragmentation: document lookup becomes slower and less trustworthy when sales and service context live in separate tools.
 
 Relevant source: [Fusion Automotive Retail Platform](https://keyloop.com/fusion-arp)
 
-Key product ideas to reflect in the challenge:
+Product ideas reflected in the challenge:
 
 - Reduce disjointed journeys across departments and systems.
 - Give dealership staff better visibility into consumers and vehicles.
-- Use connected data to improve speed, transparency, and confidence.
+- Use connected data to improve speed and confidence.
 - Support omnichannel workflows where online, in-store, sales, and aftersales context should remain connected.
 
-Scenario D should therefore be framed as a workflow continuity problem: dealership users should not have to switch between sales and service tools or manually reconcile records when answering a vehicle-related question.
+I framed Scenario D as a workflow continuity problem: a dealership user should not have to switch between sales and service tools or manually reconcile records to answer a vehicle-related question.
 
 ### Operate Domain Fit
 
@@ -38,7 +38,7 @@ Operate-oriented positioning:
 - Reduce repeated manual entry.
 - Improve agility and operational efficiency.
 
-The Unified Document Viewer should therefore be designed as an operational integration layer: it hides fragmentation from the user while preserving source-system transparency.
+The Unified Document Viewer is an operational integration layer: it hides fragmentation from the user while preserving source-system transparency.
 
 ### Open Platform Mindset
 
@@ -46,7 +46,7 @@ The Keyloop Developer portal describes Keyloop's Open Platform as a single inter
 
 Relevant source: [Keyloop Developer](https://developer.keyloop.io/)
 
-Scenario D should align with this platform mindset:
+Scenario D follows the same integration pattern:
 
 - Use stable API contracts.
 - Normalize data from different systems into a consistent response shape.
@@ -56,11 +56,11 @@ Scenario D should align with this platform mindset:
 
 ### Connected DMS and Partner Ecosystem
 
-Keyloop's DMS messaging emphasizes an open, collaborative, flexible platform that connects retailers, manufacturers, and partner applications. It also emphasizes real-time connectivity, data sharing, insights, powerful integrations, and easy access to accurate real-time data.
+Keyloop's DMS messaging describes an open platform that connects retailers, manufacturers, and partner applications. It also talks about real-time connectivity, data sharing, integrations, and access to accurate data.
 
 Relevant source: [Keyloop DMS](https://keyloop.com/en-ca/dms)
 
-Scenario D can echo this by treating the Sales System and Service System as two systems in a broader dealership ecosystem. The solution should not assume that all source systems behave identically. Instead, it should use adapters to isolate upstream contracts from the internal document model.
+Scenario D follows that shape by treating the Sales System and Service System as separate systems in the dealership ecosystem. The implementation uses adapters so each upstream contract stays isolated from the internal document model.
 
 ### Company Values
 
@@ -68,7 +68,7 @@ Keyloop's public careers page highlights three values: Bold, Authentic, and Unit
 
 Relevant source: [Keyloop Careers](https://keyloop.com/en-ca/empowering-auto-careers)
 
-How to reflect these values in the challenge:
+How I reflected those values:
 
 - Bold: choose a design that handles realistic integration failures, not just the happy path.
 - Authentic: document assumptions, trade-offs, and AI usage clearly.
@@ -84,16 +84,16 @@ The strongest technical framing is:
 
 > A backend aggregation service accepts a VIN, queries sales and service document systems in parallel, normalizes the results, returns a consolidated document list with source metadata, and persists audit data for observability and support.
 
-## Submission Angle Used
+## Submission Angle
 
-The submission keeps the main evaluation story focused on integration quality:
+The submission keeps the main story focused on integration quality:
 
 - Clean API boundary.
 - Parallel upstream calls.
 - Normalized document contract.
 - Partial failure handling.
-- Structured logging and audit persistence.
+- Readable workflow logs and audit persistence.
 - Clear source-system visibility.
 - Tests that prove correctness beyond the happy path.
 
-This shows product understanding, system design judgment, and ownership of an AI-assisted solution.
+That is the part of the problem I chose to solve fully.

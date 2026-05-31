@@ -10,7 +10,7 @@ This file records the implementation path at a high level. It is kept as an AI c
 - Implemented a Fastify/TypeScript REST API with SQLite search audit persistence.
 - Added mocked Sales and Service adapters with different payload shapes.
 - Added normalization, deduplication, newest-first sorting, source labels, warning metadata, and controlled error handling.
-- Added structured backend logs for search start, upstream completion, audit persistence, completion, and invalid VIN rejection.
+- Added readable backend logs for search start, upstream completion, audit persistence, completion, and invalid VIN rejection.
 - Added a focused React reviewer UI for VIN search, response states, source-labelled documents, request metadata, and expandable document details.
 - Added automated coverage for service behavior, repository persistence, API integration, real HTTP E2E, UI component behavior, and browser E2E flows.
 - Updated the README, system design, API contract, AI collaboration narrative, and review checklist to align with the final implementation.

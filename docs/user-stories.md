@@ -4,9 +4,9 @@
 
 A dealership user needs one reliable place to search a VIN and see all related vehicle documents from sales and service systems, without switching tools, re-entering data, or manually reconciling inconsistent records.
 
-The product should feel like an operational tool for dealership staff. The main value is speed, trust, and continuity across departments.
+The product should feel like an operational tool for dealership staff. The value is speed, trust, and continuity across departments.
 
-These stories informed the implementation scope. They are not intended to describe a full production portal; they define the minimum user-facing behavior needed to validate Scenario D.
+These stories informed the implementation scope. They are not a full production portal spec; they define the user-facing behavior needed to validate Scenario D.
 
 ## Primary Personas
 
@@ -91,20 +91,20 @@ The response should answer three user questions:
 
 ## Out-of-Scope for the Challenge
 
-To keep the solution focused, these features should be explicitly out of scope:
+These features are out of scope for this submission:
 
 - Authentication and role-based authorization.
 - Real Keyloop API integration.
 - Document preview or binary file download.
 - Full production frontend portal.
 - Complex search beyond VIN.
-- Production-grade event streaming.
+- Event streaming.
 
-These can be listed as future extensions in the design document or README.
+They are reasonable extensions, but they are not needed to prove the chosen backend layer.
 
 ## Future Extensions
 
-If asked how the solution could evolve, propose:
+Possible next steps:
 
 - Add authentication and dealership-level authorization.
 - Add document preview/download permissions.

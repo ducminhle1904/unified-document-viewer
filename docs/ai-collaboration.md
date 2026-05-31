@@ -2,30 +2,30 @@
 
 ## Short Version for README
 
-I used AI agents as engineering collaborators throughout the challenge, but kept ownership of the architecture, trade-offs, verification, and final code quality. I used AI to explore design options, draft API contracts, generate boilerplate, identify edge cases, and review test coverage. I then validated the output by inspecting the implementation, refining the failure-handling model, adding tests for core business behavior, and running the application locally.
+I used AI as a working assistant during the challenge, mainly for exploration and review. It helped me compare backend-first and frontend-first approaches, sketch the first API contract, and list edge cases I needed to prove with tests.
 
-The most useful AI contribution was speed: it helped me compare approaches quickly and uncover scenarios I might otherwise have missed, such as partial upstream failure, timeout behavior, duplicate documents, and audit persistence. The final decisions remained human-owned: I chose a backend-first design because Scenario D is primarily an integration and reliability problem, and I kept the implementation focused on a clear REST contract, parallel upstream aggregation, normalized document output, structured logs, and persisted audit records.
+I did not treat generated output as finished work. I reviewed the code, cut back overbuilt parts, fixed UI and Docker issues when they showed up, and verified the final behavior with type checks, backend tests, UI tests, E2E checks, Docker rebuilds, and manual API calls.
 
-## Detailed Version for Submission
+The final shape is deliberately small: one REST endpoint, two mocked upstream adapters, normalized documents, audit persistence, readable logs, and tests around the failure modes that matter for Scenario D.
 
-### Strategy
+## Working Notes
 
-My AI strategy was to use agents for acceleration and challenge coverage, not as a replacement for engineering judgment.
+### How I Used AI
 
-I divided the work into four phases:
+I split the work into four passes:
 
 1. Understand the business context and Keyloop alignment.
 2. Design the API, data flow, and failure behavior.
 3. Implement the backend and mocked upstream systems.
 4. Verify the result with automated tests and manual review.
 
-In each phase, I used AI differently. During design, I asked AI to compare architecture options and produce candidate API contracts. During implementation, I used AI to generate boilerplate and suggest module boundaries. During verification, I used AI to review the test plan and identify missing edge cases.
+During design, I asked AI to compare architecture options and draft possible response shapes. During implementation, I used it for repetitive scaffolding and as a second pass over module boundaries. During verification, I used it to challenge the test plan and find missing cases.
 
-### How AI Helped in the Design Phase
+### Design Phase
 
-I used AI to analyze the challenge requirements and compare the four scenarios. I chose Scenario D because it best matches Keyloop's platform philosophy: connecting dealership systems, reducing fragmented workflows, and making data available through a unified operational interface.
+I used AI to analyze the challenge requirements and compare the four scenarios. I chose Scenario D because it maps well to Keyloop's platform direction: connecting dealership systems and making operational data easier to use.
 
-AI helped generate an initial list of design concerns:
+The design pass produced this checklist:
 
 - VIN validation.
 - Parallel upstream calls.
@@ -34,13 +34,13 @@ AI helped generate an initial list of design concerns:
 - Timeout behavior.
 - Source-system transparency.
 - Audit persistence.
-- Structured observability.
+- Readable observability.
 
-I then refined the scope to keep the solution realistic for a technical challenge. For example, I chose to persist search audit records rather than storing mocked upstream documents as if they were authoritative local records.
+I then narrowed the scope. One example: I chose to persist search audit records rather than storing mocked upstream documents as if they were authoritative local records.
 
-### How AI Helped in the Implementation Phase
+### Implementation Phase
 
-I used AI to accelerate repetitive implementation work:
+I used AI for repetitive implementation work:
 
 - Server setup.
 - Route scaffolding.
@@ -49,7 +49,7 @@ I used AI to accelerate repetitive implementation work:
 - Test skeletons.
 - README structure.
 
-I treated AI-generated code as a draft. I reviewed the code for clarity, correctness, and maintainability before accepting it. Where the AI suggested over-engineered options, I simplified the implementation to keep the challenge focused.
+I treated generated code as a draft. Where it suggested heavier infrastructure or too much UI, I cut it back to the pieces needed for Scenario D.
 
 ### Verification and Ownership
 
@@ -79,6 +79,6 @@ The main refinements were:
 - Avoiding unnecessary infrastructure that would distract from the core integration problem.
 - Making the response contract stable across complete, partial, and empty result cases.
 
-### Final Ownership Statement
+### What I Owned Directly
 
-AI helped me move faster, but I remained responsible for the final design and implementation. I made the architecture decisions, confirmed the trade-offs, validated the edge cases, and ensured the solution matched the business problem: giving dealership users a single reliable view of vehicle documents across fragmented systems.
+I made the final architecture choices, checked the trade-offs, fixed broken behavior, and ran the verification steps. AI made the iteration faster, but the submitted behavior is based on inspected code and passing tests, not on generated claims.
