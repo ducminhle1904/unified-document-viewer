@@ -24,6 +24,7 @@ services:
       args:
         VITE_API_BASE_URL: https://api-unified-docs.vantixs.com
     ports:
+      - "80:80"
       - "5173:80"
     depends_on:
       api:
